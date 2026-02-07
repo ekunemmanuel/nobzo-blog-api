@@ -103,3 +103,68 @@ The raw OpenAPI JSON can be found at:
 - `GET /api/posts/{slug}`: Get a specific published post.
 - `PUT /api/posts/{id}`: Update your own post.
 - `DELETE /api/posts/{id}`: Soft delete your own post.
+
+## Sample Requests & Responses
+
+### 1. Register User
+
+**Request:**
+
+```bash
+curl -X POST http://localhost:5000/api/auth/register \
+-H "Content-Type: application/json" \
+-d '{"name": "John Doe", "email": "john@example.com", "password": "password123"}'
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "message": "User registered successfully",
+  "data": {
+    "token": "eyJhbGciOiJIUzI1Ni...",
+    "user": {
+      "id": "65c3...",
+      "name": "John Doe",
+      "email": "john@example.com"
+    }
+  }
+}
+```
+
+### 2. Create Post
+
+**Request:**
+
+```bash
+curl -X POST http://localhost:5000/api/posts \
+-H "Authorization: Bearer <YOUR_TOKEN>" \
+-H "Content-Type: application/json" \
+-d '{"title": "My Post", "content": "Content here", "status": "published", "tags": ["tag1"]}'
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "title": "My Post",
+    "slug": "my-post",
+    "content": "Content here",
+    "author": "65c3...",
+    "status": "published",
+    "tags": ["tag1"],
+    "_id": "65c4..."
+  }
+}
+```
+
+### 3. Get Posts (Filtered)
+
+**Request:**
+
+```bash
+curl "http://localhost:5000/api/posts?page=1&limit=5&search=My"
+```
